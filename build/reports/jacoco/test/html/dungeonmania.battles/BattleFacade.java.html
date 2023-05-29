@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BattleFacade.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.battles</a> &gt; <span class="el_source">BattleFacade.java</span></div><h1>BattleFacade.java</h1><pre class="source lang-java linenums">package dungeonmania.battles;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import dungeonmania.Game;
+import dungeonmania.entities.BattleItem;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
+import dungeonmania.entities.collectables.potions.Potion;
+import dungeonmania.entities.enemies.Enemy;
+import dungeonmania.entities.inventory.InventoryItem;
+import dungeonmania.response.models.BattleResponse;
+import dungeonmania.response.models.ResponseBuilder;
+import dungeonmania.util.NameConverter;
+
+<span class="fc" id="L18">public class BattleFacade {</span>
+<span class="fc" id="L19">    private List&lt;BattleResponse&gt; battleResponses = new ArrayList&lt;&gt;();</span>
+
+    public void battle(Game game, Player player, Enemy enemy) {
+        // 0. init
+        //demeter move
+<span class="fc" id="L24">        double initialPlayerHealth = player.getBattleStatistics().getHealth();</span>
+        //demeter
+<span class="fc" id="L26">        double initialEnemyHealth = enemy.getBattleStatistics().getHealth();</span>
+<span class="fc" id="L27">        String enemyString = NameConverter.toSnakeCase(enemy);</span>
+
+
+        // 1. apply buff provided by the game and player's inventory
+        // getting buffing amount
+<span class="fc" id="L32">        List&lt;BattleItem&gt; battleItems = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L33">        BattleStatistics playerBuff = new BattleStatistics(0, 0, 0, 1, 1);</span>
+
+<span class="fc" id="L35">        Potion effectivePotion = player.getEffectivePotion();</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (effectivePotion != null) {</span>
+<span class="fc" id="L37">            playerBuff = effectivePotion.applyBuff(playerBuff);</span>
+        } else {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            for (BattleItem item : player.getInventory().getEntities(BattleItem.class)) { //demeter</span>
+<span class="fc" id="L40">                playerBuff = item.applyBuff(playerBuff);</span>
+<span class="fc" id="L41">                battleItems.add(item);</span>
+<span class="fc" id="L42">            }</span>
+        }
+
+        // 2. Battle the two stats
+<span class="fc" id="L46">        BattleStatistics playerBaseStatistics = player.getBattleStatistics();</span>
+<span class="fc" id="L47">        BattleStatistics enemyBaseStatistics = enemy.getBattleStatistics();</span>
+<span class="fc" id="L48">        BattleStatistics playerBattleStatistics = BattleStatistics.applyBuff(playerBaseStatistics, playerBuff);</span>
+<span class="fc" id="L49">        BattleStatistics enemyBattleStatistics = enemyBaseStatistics;</span>
+<span class="pc bpc" id="L50" title="1 of 4 branches missed.">        if (!playerBattleStatistics.isEnabled() || !enemyBaseStatistics.isEnabled())</span>
+<span class="fc" id="L51">            return;</span>
+<span class="fc" id="L52">        List&lt;BattleRound&gt; rounds = BattleStatistics.battle(playerBattleStatistics, enemyBattleStatistics);</span>
+
+        // 3. update health to the actual statistics
+<span class="fc" id="L55">        player.getBattleStatistics().setHealth(playerBattleStatistics.getHealth()); //demeter</span>
+<span class="fc" id="L56">        enemy.getBattleStatistics().setHealth(enemyBattleStatistics.getHealth()); //demeter</span>
+
+        // 4. call to decrease durability of items
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        for (BattleItem item : battleItems) {</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">            if (item instanceof InventoryItem)</span>
+<span class="fc" id="L61">                item.use(game);</span>
+<span class="fc" id="L62">        }</span>
+
+        // 5. Log the battle - solidate it to be a battle response
+<span class="fc" id="L65">        battleResponses.add(new BattleResponse(</span>
+                enemyString,
+<span class="fc" id="L67">                rounds.stream()</span>
+<span class="fc" id="L68">                    .map(ResponseBuilder::getRoundResponse)</span>
+<span class="fc" id="L69">                    .collect(Collectors.toList()),</span>
+<span class="fc" id="L70">                battleItems.stream()</span>
+<span class="fc" id="L71">                        .map(Entity.class::cast)</span>
+<span class="fc" id="L72">                        .map(ResponseBuilder::getItemResponse)</span>
+<span class="fc" id="L73">                        .collect(Collectors.toList()),</span>
+                initialPlayerHealth,
+                initialEnemyHealth));
+<span class="fc" id="L76">    }</span>
+
+    public List&lt;BattleResponse&gt; getBattleResponses() {
+<span class="fc" id="L79">        return battleResponses;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

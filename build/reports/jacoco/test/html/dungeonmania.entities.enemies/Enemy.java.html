@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Enemy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.enemies</a> &gt; <span class="el_source">Enemy.java</span></div><h1>Enemy.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.enemies;
+
+import dungeonmania.Game;
+import dungeonmania.battles.BattleStatistics;
+import dungeonmania.battles.Battleable;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.Player;
+import dungeonmania.entities.enemies.strategy.MoveStrategy;
+import dungeonmania.map.GameMap;
+import dungeonmania.util.Position;
+
+public abstract class Enemy extends Entity implements Battleable {
+    private BattleStatistics battleStatistics;
+    private MoveStrategy moveStrategy;
+<span class="fc" id="L15">    private int stuckTicks = 0;</span>
+
+    public Enemy(Position position, double health, double attack) {
+<span class="fc" id="L18">        super(position.asLayer(Entity.CHARACTER_LAYER));</span>
+<span class="fc" id="L19">        battleStatistics = new BattleStatistics(</span>
+                health,
+                attack,
+                0,
+                BattleStatistics.DEFAULT_DAMAGE_MAGNIFIER,
+                BattleStatistics.DEFAULT_ENEMY_DAMAGE_REDUCER);
+<span class="fc" id="L25">    }</span>
+
+    public MoveStrategy getMoveStrategy() {
+<span class="fc" id="L28">        return moveStrategy;</span>
+    }
+
+    public void setMoveStrategy(MoveStrategy moveStrategy) {
+<span class="fc" id="L32">        this.moveStrategy = moveStrategy;</span>
+<span class="fc" id="L33">    }</span>
+
+    @Override
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+<span class="fc" id="L37">        return entity instanceof Player;</span>
+    }
+
+    @Override
+    public BattleStatistics getBattleStatistics() {
+<span class="fc" id="L42">        return battleStatistics;</span>
+    }
+
+    @Override
+    public void onOverlap(GameMap map, Entity entity) {
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">        if (entity instanceof Player) {</span>
+<span class="fc" id="L48">            Player player = (Player) entity;</span>
+<span class="fc" id="L49">            map.getGame().battle(player, this);</span>
+        }
+<span class="fc" id="L51">    }</span>
+
+    @Override
+    public void onDestroy(GameMap map) {
+<span class="fc" id="L55">        Game g = map.getGame();</span>
+<span class="fc" id="L56">        g.incrementEnemiesDestroyed(1);</span>
+<span class="fc" id="L57">        g.unsubscribe(getId());</span>
+<span class="fc" id="L58">    }</span>
+
+    @Override
+    public void onMovedAway(GameMap map, Entity entity) {
+<span class="fc" id="L62">        return;</span>
+    }
+
+    public abstract void move(Game game);
+
+    public boolean stuck() {
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (stuckTicks != 0) {</span>
+<span class="fc" id="L69">            stuckTicks -= 1;</span>
+<span class="fc" id="L70">            return true;</span>
+        }
+<span class="fc" id="L72">        return false;</span>
+    }
+
+    public int getStuckTicks() {
+<span class="nc" id="L76">        return stuckTicks;</span>
+    }
+
+    public void setStuckTicks(int stuck) {
+<span class="fc" id="L80">         stuckTicks = stuck;</span>
+<span class="fc" id="L81">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

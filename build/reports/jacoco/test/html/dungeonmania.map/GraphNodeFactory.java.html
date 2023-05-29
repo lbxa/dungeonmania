@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GraphNodeFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.map</a> &gt; <span class="el_source">GraphNodeFactory.java</span></div><h1>GraphNodeFactory.java</h1><pre class="source lang-java linenums">package dungeonmania.map;
+
+import org.json.JSONObject;
+
+import dungeonmania.entities.EntityFactory;
+
+<span class="nc" id="L7">public class GraphNodeFactory {</span>
+    public static GraphNode createEntity(JSONObject jsonEntity, EntityFactory factory) {
+<span class="fc" id="L9">        return constructEntity(jsonEntity, factory);</span>
+    }
+
+    private static GraphNode constructEntity(JSONObject jsonEntity, EntityFactory factory) {
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">        switch (jsonEntity.getString(&quot;type&quot;)) {</span>
+        //add cases for every game object
+        case &quot;player&quot;:
+        case &quot;zombie_toast&quot;:
+        case &quot;zombie_toast_spawner&quot;:
+        case &quot;mercenary&quot;:
+        case &quot;assassin&quot;:
+        case &quot;wall&quot;:
+        case &quot;boulder&quot;:
+        case &quot;swamp_tile&quot;:
+        case &quot;switch&quot;:
+        case &quot;exit&quot;:
+        case &quot;treasure&quot;:
+        case &quot;wood&quot;:
+        case &quot;arrow&quot;:
+        case &quot;bomb&quot;:
+        case &quot;invisibility_potion&quot;:
+        case &quot;invincibility_potion&quot;:
+        case &quot;portal&quot;:
+        case &quot;sword&quot;:
+        case &quot;spider&quot;:
+        case &quot;door&quot;:
+        case &quot;light_bulb_off&quot;:
+        case &quot;light_bulb_on&quot;:
+        case &quot;switch_door&quot;:
+        case &quot;switch_door_open&quot;:
+        case &quot;wire&quot;:
+        case &quot;key&quot;:
+        case &quot;sun_stone&quot;:
+<span class="fc" id="L42">            return new GraphNode(factory.createEntity(jsonEntity));</span>
+        default:
+<span class="nc" id="L44">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

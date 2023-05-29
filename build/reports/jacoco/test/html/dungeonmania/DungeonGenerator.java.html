@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DungeonGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania</a> &gt; <span class="el_source">DungeonGenerator.java</span></div><h1>DungeonGenerator.java</h1><pre class="source lang-java linenums">package dungeonmania;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+public class DungeonGenerator {
+    private boolean[][] grid;
+    private int width;
+    private int height;
+
+    private static final boolean WALL = false;
+    private static final boolean EMPTY = true;
+    private static final int CARDINALLY_ADJACENT = 1;
+    private static final int WALL_BOUNDARY = 1;
+
+    private static class Pair {
+        private int x;
+        private int y;
+
+<span class="fc" id="L23">        public Pair(int x, int y) {</span>
+<span class="fc" id="L24">            this.x = x; this.y = y;</span>
+<span class="fc" id="L25">        }</span>
+
+        public int getX() {
+<span class="fc" id="L28">            return x;</span>
+        }
+
+        public int getY() {
+<span class="fc" id="L32">            return y;</span>
+        }
+    }
+
+<span class="fc" id="L36">    public DungeonGenerator(int xStart, int yStart, int xEnd, int yEnd) {</span>
+<span class="fc" id="L37">        this.width = Math.abs(xEnd - xStart) + (3 * WALL_BOUNDARY);</span>
+<span class="fc" id="L38">        this.height = Math.abs(yEnd - yStart) + (3 * WALL_BOUNDARY);</span>
+<span class="fc" id="L39">        this.grid = new boolean[height][width]; // all false by default</span>
+<span class="fc" id="L40">    }</span>
+
+    private boolean at(Pair loc) {
+<span class="fc" id="L43">        return grid[loc.getY()][loc.getX()];</span>
+    };
+
+    private void set(Pair loc, boolean val) {
+<span class="fc" id="L47">         grid[loc.getY()][loc.getX()] = val;</span>
+<span class="fc" id="L48">    }</span>
+
+    private boolean checkInBounds(Pair loc) {
+<span class="fc bfc" id="L51" title="All 8 branches covered.">        return loc.getX() &gt; 0 &amp;&amp; loc.getX() &lt; width - 1 &amp;&amp; loc.getY() &gt; 0 &amp;&amp; loc.getY() &lt; height - 1;</span>
+    }
+
+    private boolean checkNotWall(Pair loc) {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        return at(loc) != WALL;</span>
+    }
+
+    private Pair midpoint(Pair loc1, Pair loc2) {
+<span class="fc" id="L59">        return new Pair((loc1.getX() + loc2.getX()) / 2, (loc1.getY() + loc2.getY()) / 2);</span>
+    }
+
+    private List&lt;Pair&gt; getNeighbours(Pair loc, int cardinalDistance) {
+<span class="fc" id="L63">        return Arrays.asList(</span>
+<span class="fc" id="L64">            new Pair(loc.getX() + cardinalDistance, loc.getY()),</span>
+<span class="fc" id="L65">            new Pair(loc.getX() - cardinalDistance, loc.getY()),</span>
+<span class="fc" id="L66">            new Pair(loc.getX(), loc.getY() + cardinalDistance),</span>
+<span class="fc" id="L67">            new Pair(loc.getX(), loc.getY() - cardinalDistance)</span>
+        );
+    }
+
+    private List&lt;Pair&gt; getNeighbours(Pair loc) {
+<span class="fc" id="L72">        return Arrays.asList(</span>
+<span class="fc" id="L73">            new Pair(loc.getX() + 2, loc.getY()),</span>
+<span class="fc" id="L74">            new Pair(loc.getX() - 2, loc.getY()),</span>
+<span class="fc" id="L75">            new Pair(loc.getX(), loc.getY() + 2),</span>
+<span class="fc" id="L76">            new Pair(loc.getX(), loc.getY() - 2)</span>
+        );
+    }
+
+    private Pair popRandomElement(List&lt;Pair&gt; list) {
+<span class="fc" id="L81">        Random rand = new Random();</span>
+<span class="fc" id="L82">        Pair x = list.get(rand.nextInt(list.size()));</span>
+<span class="fc" id="L83">        list.remove(x);</span>
+<span class="fc" id="L84">        return x;</span>
+    }
+
+    private Pair getRandomElement(List&lt;Pair&gt; list) {
+<span class="fc" id="L88">        Random rand = new Random();</span>
+<span class="fc" id="L89">        return list.get(rand.nextInt(list.size()));</span>
+    }
+
+    public boolean[][] randomizedPrims() {
+<span class="fc" id="L93">        Pair start = new Pair(1, 1);</span>
+<span class="fc" id="L94">        Pair end = new Pair(width - WALL_BOUNDARY - 1, height - WALL_BOUNDARY - 1);</span>
+<span class="fc" id="L95">        set(start, EMPTY);</span>
+
+<span class="fc" id="L97">        List&lt;Pair&gt; options = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L99">        getNeighbours(start).stream()</span>
+<span class="fc" id="L100">            .filter(n -&gt; checkInBounds(n))</span>
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">            .filter(n -&gt; !checkNotWall(n))</span>
+<span class="fc" id="L102">            .forEach(n -&gt; options.add(n));</span>
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        while (options.size() != 0) {</span>
+<span class="fc" id="L105">            Pair next = popRandomElement(options);</span>
+
+<span class="fc" id="L107">            List&lt;Pair&gt; neighbours = getNeighbours(next).stream()</span>
+<span class="fc" id="L108">                .filter(n -&gt; checkInBounds(n))</span>
+<span class="fc" id="L109">                .filter(n -&gt; checkNotWall(n))</span>
+<span class="fc" id="L110">                .collect(Collectors.toList());</span>
+
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">            if (neighbours.size() != 0) {</span>
+<span class="fc" id="L113">                Pair neighbour = getRandomElement(neighbours);</span>
+<span class="fc" id="L114">                Pair mid = midpoint(next, neighbour);</span>
+
+<span class="fc" id="L116">                set(next, EMPTY);</span>
+<span class="fc" id="L117">                set(mid, EMPTY);</span>
+<span class="fc" id="L118">                set(neighbour, EMPTY);</span>
+            }
+
+<span class="fc" id="L121">            getNeighbours(next).stream()</span>
+<span class="fc" id="L122">                .filter(n -&gt; checkInBounds(n))</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">                .filter(n -&gt; !checkNotWall(n))</span>
+<span class="fc" id="L124">                .forEach(n -&gt; options.add(n));</span>
+<span class="fc" id="L125">        }</span>
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        if (at(end) == WALL) {</span>
+<span class="fc" id="L128">            set(end, EMPTY);</span>
+<span class="fc" id="L129">            List&lt;Pair&gt; neighbours = getNeighbours(end, CARDINALLY_ADJACENT);</span>
+<span class="fc" id="L130">            boolean someEmptyNeighbours = neighbours.stream().anyMatch(n -&gt; checkNotWall(n));</span>
+<span class="pc bpc" id="L131" title="1 of 2 branches missed.">            if (!someEmptyNeighbours) {</span>
+<span class="fc" id="L132">                Pair leftNeighbour = neighbours.stream()</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">                    .filter(n -&gt; n.getX() &lt;= end.getX())</span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">                    .filter(n -&gt; n.getY() &lt;= end.getY())</span>
+<span class="fc" id="L135">                    .findFirst().get();</span>
+<span class="fc" id="L136">                set(leftNeighbour, EMPTY);</span>
+            }
+        }
+<span class="fc" id="L139">        return grid;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

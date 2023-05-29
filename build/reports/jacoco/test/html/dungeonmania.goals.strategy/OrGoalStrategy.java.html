@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrGoalStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.goals.strategy</a> &gt; <span class="el_source">OrGoalStrategy.java</span></div><h1>OrGoalStrategy.java</h1><pre class="source lang-java linenums">package dungeonmania.goals.strategy;
+
+import dungeonmania.Game;
+import dungeonmania.goals.Goal;
+
+public class OrGoalStrategy implements GoalStrategy {
+    private Goal goal1;
+    private Goal goal2;
+
+<span class="fc" id="L10">    public OrGoalStrategy(Goal goal1, Goal goal2) {</span>
+<span class="fc" id="L11">        this.goal1 = goal1;</span>
+<span class="fc" id="L12">        this.goal2 = goal2;</span>
+<span class="fc" id="L13">    }</span>
+
+    @Override
+    public boolean achieved(Game game) {
+<span class="pc bpc" id="L17" title="1 of 4 branches missed.">        return goal1.achieved(game) || goal2.achieved(game);</span>
+    }
+
+    @Override
+    public String toString(Game game) {
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">        if (achieved(game)) return &quot;&quot;;</span>
+<span class="fc" id="L23">        else return &quot;(&quot; + goal1.toString(game) + &quot; OR &quot; + goal2.toString(game) + &quot;)&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

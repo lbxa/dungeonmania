@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Sword.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.collectables</a> &gt; <span class="el_source">Sword.java</span></div><h1>Sword.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.collectables;
+
+import dungeonmania.Game;
+import dungeonmania.battles.BattleStatistics;
+import dungeonmania.entities.BattleItem;
+import dungeonmania.entities.inventory.InventoryItem;
+import dungeonmania.util.Position;
+
+public class Sword extends Collectables implements InventoryItem, BattleItem {
+    public static final double DEFAULT_ATTACK = 1;
+    public static final double DEFAULT_ATTACK_SCALE_FACTOR = 1;
+    public static final int DEFAULT_DURABILITY = 5;
+    public static final double DEFAULT_DEFENCE = 0;
+    public static final double DEFAULT_DEFENCE_SCALE_FACTOR = 1;
+
+    private int durability;
+    private double attack;
+
+    public Sword(Position position, double attack, int durability) {
+<span class="fc" id="L20">        super(position);</span>
+<span class="fc" id="L21">        this.attack = attack;</span>
+<span class="fc" id="L22">        this.durability = durability;</span>
+<span class="fc" id="L23">    }</span>
+
+    //move to superclass
+    // @Override
+    // public boolean canMoveOnto(GameMap map, Entity entity) {
+    //     return true;
+    // }
+    // //move to superclass
+    // @Override
+    // public void onOverlap(GameMap map, Entity entity) {
+    //     if (entity instanceof Player) {
+    //         if (!((Player) entity).pickUp(this)) return;
+    //         map.destroyEntity(this);
+    //     }
+    // }
+
+    // @Override
+    // public void onMovedAway(GameMap map, Entity entity) {
+    //     return;
+    // }
+
+    // @Override
+    // public void onDestroy(GameMap gameMap) {
+    //     return;
+    // }
+
+    @Override
+    public void use(Game game) {
+<span class="fc" id="L51">        durability--;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (durability &lt;= 0) {</span>
+            //game.getPlayer().remove(this);//demeter
+<span class="fc" id="L54">            game.removeItem(this);</span>
+        }
+<span class="fc" id="L56">    }</span>
+
+    @Override
+    public BattleStatistics applyBuff(BattleStatistics origin) {
+<span class="fc" id="L60">        return BattleStatistics.applyBuff(origin, new BattleStatistics(</span>
+            0,
+            attack,
+            0,
+            1,
+            1));
+    }
+
+    @Override
+    public int getDurability() {
+<span class="nc" id="L70">        return durability;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.DoorsKeysTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-11-07T02:53:12" hostname="CHARLOTTE" time="0.381">
+  <properties/>
+  <testcase name="Test player can pick up a key and add to inventory" classname="dungeonmania.mvp.DoorsKeysTest" time="0.065"/>
+  <testcase name="Test player cannot pickup two keys at the same time" classname="dungeonmania.mvp.DoorsKeysTest" time="0.058"/>
+  <testcase name="Test player can use a key to open and walk through a door" classname="dungeonmania.mvp.DoorsKeysTest" time="0.059"/>
+  <testcase name="Test player cannot walk through a closed door" classname="dungeonmania.mvp.DoorsKeysTest" time="0.055"/>
+  <testcase name="Test doors remain open and the player can move through the door without a key" classname="dungeonmania.mvp.DoorsKeysTest" time="0.052"/>
+  <testcase name="Test player cannot open a door with the wrong key" classname="dungeonmania.mvp.DoorsKeysTest" time="0.046"/>
+  <testcase name="Test player can pick up a second key after using the first" classname="dungeonmania.mvp.DoorsKeysTest" time="0.043"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 35 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 27 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 26 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 28 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 28 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 26 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 22 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 24 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 18 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 22 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 17 ms to scan 2 urls, producing 116 keys and 116 values
+]]></system-err>
+</testsuite>

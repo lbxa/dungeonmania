@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Wire.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities</a> &gt; <span class="el_source">Wire.java</span></div><h1>Wire.java</h1><pre class="source lang-java linenums">package dungeonmania.entities;
+
+import java.util.List;
+
+import dungeonmania.map.GameMap;
+import dungeonmania.util.Position;
+
+public class Wire extends Entity {
+    private boolean activated;
+<span class="fc" id="L10">    private int activatedTick = -1;</span>
+
+    public Wire(Position position) {
+<span class="fc" id="L13">        super(position.asLayer(Entity.ITEM_LAYER));</span>
+<span class="fc" id="L14">    }</span>
+
+    @Override
+    public boolean canMoveOnto(GameMap map, Entity entity) {
+<span class="fc" id="L18">        return true;</span>
+    }
+
+    public boolean isActivated() {
+<span class="fc" id="L22">        return activated;</span>
+    }
+
+    public int getActivatedTick() {
+<span class="fc" id="L26">        return activatedTick;</span>
+    }
+
+    public void deactivate() {
+<span class="fc" id="L30">        activated = false;</span>
+<span class="fc" id="L31">        activatedTick = -1;</span>
+<span class="fc" id="L32">    }</span>
+
+    public void activate(int activationTick) {
+<span class="fc" id="L35">        activated = true;</span>
+<span class="fc" id="L36">        activatedTick = activationTick;</span>
+<span class="fc" id="L37">    }</span>
+
+    public void activateSurroundingWires(GameMap gameMap, int activationTick) {
+<span class="fc" id="L40">        activate(activationTick);</span>
+<span class="fc" id="L41">        List&lt;Position&gt; adjacentPositions = getPosition().getCardinallyAdjacentPositions();</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        for (Position position : adjacentPositions) {</span>
+<span class="fc" id="L44">            List&lt;Entity&gt; entities = gameMap.getEntities(position);</span>
+
+            // activate any wires found that weren't yet activated this tick
+<span class="fc" id="L47">            entities.stream()</span>
+<span class="fc" id="L48">                    .filter(entity -&gt; entity instanceof Wire).map(Wire.class::cast)</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">                    .filter(w -&gt; w.getActivatedTick() != activationTick)</span>
+<span class="fc" id="L50">                    .forEach(w -&gt; w.activateSurroundingWires(gameMap, activationTick));</span>
+<span class="fc" id="L51">        }</span>
+<span class="fc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

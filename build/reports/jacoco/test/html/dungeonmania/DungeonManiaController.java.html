@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DungeonManiaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania</a> &gt; <span class="el_source">DungeonManiaController.java</span></div><h1>DungeonManiaController.java</h1><pre class="source lang-java linenums">package dungeonmania;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.json.JSONException;
+
+import dungeonmania.exceptions.InvalidActionException;
+import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.ResponseBuilder;
+import dungeonmania.util.Direction;
+import dungeonmania.util.FileLoader;
+
+<span class="fc" id="L15">public class DungeonManiaController {</span>
+<span class="fc" id="L16">    private Game game = null;</span>
+
+    public String getSkin() {
+<span class="nc" id="L19">        return &quot;default&quot;;</span>
+    }
+
+    public String getLocalisation() {
+<span class="nc" id="L23">        return &quot;en_US&quot;;</span>
+    }
+
+    /**
+     * /dungeons
+     */
+    public static List&lt;String&gt; dungeons() {
+<span class="fc" id="L30">        return FileLoader.listFileNamesInResourceDirectory(&quot;dungeons&quot;);</span>
+    }
+
+    /**
+     * /configs
+     */
+    public static List&lt;String&gt; configs() {
+<span class="fc" id="L37">        return FileLoader.listFileNamesInResourceDirectory(&quot;configs&quot;);</span>
+    }
+
+    /**
+     * /game/new
+     */
+    public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (!dungeons().contains(dungeonName)) {</span>
+<span class="fc" id="L45">            throw new IllegalArgumentException(dungeonName + &quot; is not a dungeon that exists&quot;);</span>
+        }
+
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">        if (!configs().contains(configName)) {</span>
+<span class="nc" id="L49">            throw new IllegalArgumentException(configName + &quot; is not a configuration that exists&quot;);</span>
+        }
+
+        try {
+<span class="fc" id="L53">            GameBuilder builder = new GameBuilder();</span>
+<span class="fc" id="L54">            game = builder.setConfigName(configName).setDungeonName(dungeonName).buildGame();</span>
+<span class="fc" id="L55">            return ResponseBuilder.getDungeonResponse(game);</span>
+<span class="nc" id="L56">        } catch (JSONException e) {</span>
+<span class="nc" id="L57">            return null;</span>
+        }
+    }
+
+    /**
+     * /game/dungeonResponseModel
+     */
+    public DungeonResponse getDungeonResponseModel() {
+<span class="nc" id="L65">        return null;</span>
+    }
+
+    /**
+     * /game/tick/item
+     */
+    public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
+<span class="fc" id="L72">        return ResponseBuilder.getDungeonResponse(game.tick(itemUsedId));</span>
+    }
+
+    /**
+     * /game/tick/movement
+     */
+    public DungeonResponse tick(Direction movementDirection) {
+<span class="fc" id="L79">        return ResponseBuilder.getDungeonResponse(game.tick(movementDirection));</span>
+    }
+
+    /**
+     * /game/build
+     */
+    public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
+<span class="fc" id="L86">        List&lt;String&gt; validBuildables = List.of(&quot;bow&quot;, &quot;shield&quot;, &quot;midnight_armour&quot;, &quot;sceptre&quot;);</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (!validBuildables.contains(buildable)) {</span>
+<span class="fc" id="L88">            throw new IllegalArgumentException(&quot;Only bow, shield, midnight_armour and sceptre can be built&quot;);</span>
+        }
+
+<span class="fc" id="L91">        return ResponseBuilder.getDungeonResponse(game.build(buildable));</span>
+    }
+
+    /**
+     * /game/interact
+     */
+    public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
+<span class="fc" id="L98">        return ResponseBuilder.getDungeonResponse(game.interact(entityId));</span>
+    }
+
+    /**
+     * /game/save
+     */
+    public DungeonResponse saveGame(String name) throws IllegalArgumentException {
+<span class="nc" id="L105">        return null;</span>
+    }
+
+    /**
+     * /game/load
+     */
+    public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+<span class="nc" id="L112">        return null;</span>
+    }
+
+    /**
+     * /games/all
+     */
+    public List&lt;String&gt; allGames() {
+<span class="nc" id="L119">        return new ArrayList&lt;&gt;();</span>
+    }
+
+    /**
+     * /game/new/generate
+     */
+    public DungeonResponse generateDungeon(
+            int xStart, int yStart, int xEnd, int yEnd, String configName) throws IllegalArgumentException {
+
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">        if (!configs().contains(configName)) {</span>
+<span class="nc" id="L129">            throw new IllegalArgumentException(configName + &quot; is not a configuration that exists&quot;);</span>
+        }
+
+<span class="pc bpc" id="L132" title="2 of 4 branches missed.">        if (xEnd &lt; xStart || yEnd &lt; yStart) {</span>
+<span class="nc" id="L133">            throw new IllegalArgumentException(&quot;Invalid dungeon dimensions&quot;);</span>
+        }
+
+        try {
+<span class="fc" id="L137">            GameBuilder builder = new GameBuilder();</span>
+<span class="fc" id="L138">            game = builder.setConfigName(configName).setDungeonName(UUID.randomUUID().toString())</span>
+<span class="fc" id="L139">                .genRandomGame(xStart, yStart, xEnd, yEnd);</span>
+<span class="fc" id="L140">            return ResponseBuilder.getDungeonResponse(game);</span>
+<span class="nc" id="L141">        } catch (JSONException e) {</span>
+<span class="nc" id="L142">            return null;</span>
+        }
+    }
+
+
+    /**
+     * /game/rewind
+     */
+    public DungeonResponse rewind(int ticks) throws IllegalArgumentException {
+<span class="nc" id="L151">        return null;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

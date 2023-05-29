@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.BouldersTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-11-07T02:53:11" hostname="CHARLOTTE" time="0.132">
+  <properties/>
+  <testcase name="Test the player is unable to push two boulders" classname="dungeonmania.mvp.BouldersTest" time="0.042"/>
+  <testcase name="Test pushing a boulder" classname="dungeonmania.mvp.BouldersTest" time="0.052"/>
+  <testcase name="Test attempting to push a boulder into a wall" classname="dungeonmania.mvp.BouldersTest" time="0.038"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 18 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 21 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 26 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 23 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 18 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 18 ms to scan 2 urls, producing 116 keys and 116 values
+]]></system-err>
+</testsuite>

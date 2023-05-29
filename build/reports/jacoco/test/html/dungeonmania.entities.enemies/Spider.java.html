@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Spider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.entities.enemies</a> &gt; <span class="el_source">Spider.java</span></div><h1>Spider.java</h1><pre class="source lang-java linenums">package dungeonmania.entities.enemies;
+
+// import java.util.List;
+
+import dungeonmania.Game;
+// import dungeonmania.entities.Boulder;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.enemies.strategy.SpiderMoveStrategy;
+import dungeonmania.util.Position;
+
+
+public class Spider extends Enemy {
+    public static final int DEFAULT_SPAWN_RATE = 0;
+    public static final double DEFAULT_ATTACK = 5;
+    public static final double DEFAULT_HEALTH = 10;
+
+    public Spider(Position position, double health, double attack) {
+<span class="fc" id="L18">        super(position.asLayer(Entity.DOOR_LAYER + 1), health, attack);</span>
+        /**
+         * Establish spider movement trajectory Spider moves as follows:
+         *  8 1 2       10/12  1/9  2/8
+         *  7 S 3       11     S    3/7
+         *  6 5 4       B      5    4/6
+         */
+<span class="fc" id="L25">        setMoveStrategy(new SpiderMoveStrategy(this, position));</span>
+<span class="fc" id="L26">    };</span>
+
+    @Override
+    public void move(Game game) {
+<span class="fc" id="L30">        getMoveStrategy().move(game);</span>
+<span class="fc" id="L31">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

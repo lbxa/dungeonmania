@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dungeonmania.mvp.ZombieTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2022-11-07T02:53:15" hostname="CHARLOTTE" time="0.456">
+  <properties/>
+  <testcase name="Testing that a dungeon with 2 spawners, spawns 2 zombies at a time" classname="dungeonmania.mvp.ZombieTest" time="0.048"/>
+  <testcase name="Testing zombie toast spawners won't spawn zombies if there are no cardinally adjacent open squares" classname="dungeonmania.mvp.ZombieTest" time="0.048"/>
+  <testcase name="Testing zombies movement" classname="dungeonmania.mvp.ZombieTest" time="0.048"/>
+  <testcase name="Testing zombies cannot move through closed doors and walls" classname="dungeonmania.mvp.ZombieTest" time="0.055"/>
+  <testcase name="Testing zombie toast spawners spawn zombies in cardinally adjacent open squares" classname="dungeonmania.mvp.ZombieTest" time="0.056"/>
+  <testcase name="Testing zombie spawners spawn zombies every x ticks" classname="dungeonmania.mvp.ZombieTest" time="0.142"/>
+  <testcase name="Testing destroying a zombie toast spawner" classname="dungeonmania.mvp.ZombieTest" time="0.056"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] INFO org.reflections.Reflections - Reflections took 22 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 23 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 21 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 24 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 21 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 26 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 27 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 25 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 24 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 39 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 35 ms to scan 2 urls, producing 116 keys and 116 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 29 ms to scan 2 urls, producing 132 keys and 132 values
+[Test worker] INFO org.reflections.Reflections - Reflections took 23 ms to scan 2 urls, producing 116 keys and 116 values
+]]></system-err>
+</testsuite>

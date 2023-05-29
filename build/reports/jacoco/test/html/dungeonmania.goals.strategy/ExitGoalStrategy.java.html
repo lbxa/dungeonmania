@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExitGoalStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assignment-ii</a> &gt; <a href="index.source.html" class="el_package">dungeonmania.goals.strategy</a> &gt; <span class="el_source">ExitGoalStrategy.java</span></div><h1>ExitGoalStrategy.java</h1><pre class="source lang-java linenums">package dungeonmania.goals.strategy;
+
+import java.util.List;
+
+import dungeonmania.Game;
+import dungeonmania.entities.Entity;
+import dungeonmania.entities.Exit;
+import dungeonmania.entities.Player;
+import dungeonmania.map.GameMap;
+import dungeonmania.util.Position;
+
+<span class="fc" id="L12">public class ExitGoalStrategy implements GoalStrategy {</span>
+    @Override
+    public boolean achieved(Game game) {
+<span class="fc" id="L15">        Player character = game.getPlayer();</span>
+<span class="fc" id="L16">        Position pos = character.getPosition();</span>
+<span class="fc" id="L17">        GameMap gameMap = game.getMap();</span>
+<span class="fc" id="L18">        List&lt;Exit&gt; es = gameMap.getEntities(Exit.class);</span>
+<span class="pc bpc" id="L19" title="1 of 4 branches missed.">        if (es == null || es.size() == 0) return false;</span>
+<span class="fc" id="L20">        return es</span>
+<span class="fc" id="L21">            .stream()</span>
+<span class="fc" id="L22">            .map(Entity::getPosition)</span>
+<span class="fc" id="L23">            .anyMatch(pos::equals);</span>
+    }
+
+    @Override
+    public String toString(Game game) {
+<span class="fc" id="L28">        return &quot;:exit&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
